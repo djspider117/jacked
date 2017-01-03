@@ -1,4 +1,4 @@
-Shader "Earth"
+Shader "Planet"
 {
 	Properties 
 	{
@@ -11,6 +11,7 @@ Shader "Earth"
 		_CloudAndNightTex("Cloud And Night", 2D) = "black" {}
 
 		_LightDir("Light Dir", Vector) = (-1,0,0,1)
+		_ShadowLift("Shadow Lift", Range(0,1)) = 0.01
 	}
 
 	SubShader 
@@ -31,6 +32,7 @@ Shader "Earth"
 			float4 _AtmosphereColor;
 			float _AtmospherePow;
 			float _AtmosphereMultiply;
+			float _ShadowLift;
 
 			float4 _LightDir;
 
@@ -76,7 +78,7 @@ Shader "Earth"
 
 				half4 result;
 				
-				result.rgb = (colorSample + cloudSample) * input.diffuse + (clamp(nightSample - 0.04, 0, 1) * 12) * input.night + input.atmosphere;
+				result.rgb = (colorSample + cloudSample) * clamp(input.diffuse + _ShadowLift, 0, 1) + (clamp(nightSample - 0.04, 0, 1) * 12) * input.night + input.atmosphere;
 				result.a = 1;
 				return result;
 			}
