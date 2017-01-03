@@ -78,7 +78,7 @@ Shader "Planet"
 
 				half4 result;
 				
-				result.rgb = (colorSample + cloudSample) * clamp(input.diffuse + _ShadowLift, 0, 1) + (clamp(nightSample - 0.04, 0, 1) * 12) * input.night + input.atmosphere;
+				result.rgb = (colorSample + cloudSample) * clamp(input.diffuse + _ShadowLift, 0, 1)  + input.atmosphere;
 				result.a = 1;
 				return result;
 			}
