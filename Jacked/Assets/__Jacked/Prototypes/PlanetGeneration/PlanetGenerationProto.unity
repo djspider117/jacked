@@ -90,6 +90,114 @@ NavMeshSettings:
     cellSize: 0.16666667
     manualCellSize: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &37433242
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 37433247}
+  - 33: {fileID: 37433246}
+  - 135: {fileID: 37433245}
+  - 23: {fileID: 37433244}
+  - 114: {fileID: 37433243}
+  m_Layer: 0
+  m_Name: Sphere (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &37433243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 37433242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75089c8459ee5d94ea3c5316a6d7e953, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Seed: 581
+  VerticalResolution: 256
+  DeepOceanLevel: 0.1
+  SeaLevel: 0.2
+  ShoreLevel: 0.3
+  GrassLevel: 0.36
+  ForestLevel: 0.41
+  RockLevel: 0.79
+  ColorMapEnabled: 1
+  DeepOceanColor: {r: 0.0627451, g: 0.13333334, b: 0.17254902, a: 1}
+  SeaColor: {r: 0.10196079, g: 0.21568629, b: 0.27450982, a: 1}
+  ShoreColor: {r: 0.15294118, g: 0.3254902, b: 0.41960788, a: 1}
+  GrassColor: {r: 0.53333336, g: 0.53333336, b: 0.5254902, a: 1}
+  ForestColor: {r: 0.22352943, g: 0.30980393, b: 0.15686275, a: 1}
+  RockColor: {r: 0.32156864, g: 0.34117648, b: 0.3137255, a: 1}
+  IceColor: {r: 0.7490196, g: 0.74509805, b: 0.7372549, a: 1}
+  DoUpdate: 0
+--- !u!23 &37433244
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 37433242}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_Materials:
+  - {fileID: 2100000, guid: 4087773b15e9c5b48a48079aef72dfd8, type: 2}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 1
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_SelectedWireframeHidden: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+--- !u!135 &37433245
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 37433242}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!33 &37433246
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 37433242}
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &37433247
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 37433242}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 2, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
 --- !u!1 &619381693
 GameObject:
   m_ObjectHideFlags: 0
@@ -105,7 +213,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &619381694
 Light:
   m_ObjectHideFlags: 0
@@ -171,7 +279,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &955217742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,21 +291,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75089c8459ee5d94ea3c5316a6d7e953, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Seed: 47
-  VerticalResolution: 1024
+  Seed: 581
+  VerticalResolution: 256
   DeepOceanLevel: 0.1
   SeaLevel: 0.2
   ShoreLevel: 0.3
   GrassLevel: 0.36
-  ForestLevel: 0.5
-  RockLevel: 0.85
+  ForestLevel: 0.41
+  RockLevel: 0.79
+  ColorMapEnabled: 1
   DeepOceanColor: {r: 0.0627451, g: 0.13333334, b: 0.17254902, a: 1}
   SeaColor: {r: 0.10196079, g: 0.21568629, b: 0.27450982, a: 1}
   ShoreColor: {r: 0.15294118, g: 0.3254902, b: 0.41960788, a: 1}
   GrassColor: {r: 0.53333336, g: 0.53333336, b: 0.5254902, a: 1}
   ForestColor: {r: 0.22352943, g: 0.30980393, b: 0.15686275, a: 1}
   RockColor: {r: 0.32156864, g: 0.34117648, b: 0.3137255, a: 1}
-  IceColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+  IceColor: {r: 0.7490196, g: 0.74509805, b: 0.7372549, a: 1}
+  DoUpdate: 0
 --- !u!23 &955217743
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -276,7 +386,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!23 &1038441735
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -418,10 +528,10 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1993038138}
-  m_LocalRotation: {x: -0.6230562, y: 0.52259463, z: 0.15691334, w: -0.5604232}
-  m_LocalPosition: {x: 0.834, y: 0.946, z: 1.319}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -13.75}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 32.287003, y: 247.802, z: -78.379005}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0

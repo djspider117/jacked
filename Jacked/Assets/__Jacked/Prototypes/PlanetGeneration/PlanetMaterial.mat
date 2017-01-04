@@ -87,7 +87,7 @@ Material:
       second: 2.08
     - first:
         name: _AtmospherePow
-      second: 1.5
+      second: 3.32
     - first:
         name: _BumpScale
       second: 1

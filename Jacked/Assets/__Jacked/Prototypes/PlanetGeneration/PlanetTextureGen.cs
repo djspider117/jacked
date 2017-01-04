@@ -5,10 +5,10 @@ using CoherentNoise.Generation.Fractal;
 using System.Threading;
 using System.Linq;
 using System.Collections.Generic;
+using CoherentNoise.Generation;
 
 public class PlanetTextureGen : MonoBehaviour
 {
-    private Generator _generator;
     private int _horizontalResolution;
 
     public int Seed;
@@ -22,6 +22,8 @@ public class PlanetTextureGen : MonoBehaviour
     public float ForestLevel = 0.7f;
     public float RockLevel = 0.8f;
 
+    public bool ColorMapEnabled = true;
+
     [Header ("Color Mapping")]
     public Color DeepOceanColor = new Color(0.561f, 0.737f, 0.561f);
     public Color SeaColor = new Color(0.118f, 0.565f, 1.000f);
@@ -31,23 +33,59 @@ public class PlanetTextureGen : MonoBehaviour
     public Color RockColor = new Color(0.545f, 0.271f, 0.075f);
     public Color IceColor = new Color(0.9f, 0.9f, 0.9f);
 
+    [Header ("Terrain RidgeNoise Settings")]
+    public float Frequency = 1f;
+    public float Exponent = 0.4f;
+    public float Gain = 2f;
+    public float Offset = 0.7f;
+    public float Lacunarity = 0.5f;
+    public int OctaveCount = 6;
+
+    public float TurbulentFrequency = 4;
+    public float TurbulentPower = 0.2f;
+    public int TurbulentSeed = 2;
+
+    [Header ("Polar Caps Settings")]
+    public bool HasIceCaps = true;
+    public float PolarExtent = 0.2f;
+    public float PolarFrequency = 1f;
+    public float PolarLacunarity = 0.5f;
+    public int PolarOctaveCount = 6;
+    public float PolarPersistance = 0.5f;
+
+
+    public bool DoUpdate;
+
     private void Start()
     {
         Generate();
     }
 
+    public void Update()
+    {
+        if (DoUpdate)
+        {
+            Generate();
+            DoUpdate = false;
+        }
+    }
+
+    private struct ThreadArgs
+    {
+        public Color[] pixels;
+        public int i;
+        internal int memPerThread;
+        internal int width;
+        internal int height;
+    }
+
     private void Generate()
     {
+        var timeNow = Time.time;
         _horizontalResolution = VerticalResolution * 2;
-        _generator = new RidgeNoise(Seed)
-        {
-            Frequency = 1f,
-            Exponent = 0.4f,
-            Gain = 2f,
-            Offset = 0.7f
-        }.Turbulence(4, 0.2f, 2);
 
 
+        int numThreads = 8;
 
         Color[] pixels = new Color[_horizontalResolution * VerticalResolution];
 
@@ -56,41 +94,83 @@ public class PlanetTextureGen : MonoBehaviour
         float uInc = 1.0f / (float)_horizontalResolution;
         float vInc = 1.0f / (float)VerticalResolution;
 
-        int mem = (_horizontalResolution * VerticalResolution);
-
-        for (int q = 0; q < mem; q++)
+        int memPerThread = (_horizontalResolution * VerticalResolution) / numThreads;
+        Thread[] thrs = new Thread[numThreads];
+        for (int t = 0; t < numThreads; t++)
         {
-            var y = q / _horizontalResolution;
-            var x = q - y * _horizontalResolution;
+            var thr = new Thread((arg) =>
+            {
+                var landmassGenerator = new RidgeNoise(Seed)
+                {
+                    Frequency = Frequency,
+                    Exponent = Exponent,
+                    Gain = Gain,
+                    Offset = Offset,
+                    Lacunarity = Lacunarity,
+                    OctaveCount = OctaveCount
+                }.Turbulence(TurbulentFrequency, TurbulentPower, TurbulentSeed);
 
-            var u = (float)x / _horizontalResolution;
-            var v = (float)y / VerticalResolution;
+                var polarCapsGenerator = new PinkNoise(Seed)
+                {
+                    Frequency = PolarFrequency,
+                    Lacunarity = PolarLacunarity,
+                    OctaveCount = PolarOctaveCount,
+                    Persistence = PolarPersistance
+                };
 
-            var noisePos = MapUV(u, v);
-            var noiseSample = _generator.GetValue(noisePos);
-            Color targetColor = new Color(noiseSample, noiseSample, noiseSample);
+                var qargs = (ThreadArgs)arg;
+                var i = qargs.i;
+                var pxls = qargs.pixels;
 
-            if (noiseSample < DeepOceanLevel)
-                targetColor = DeepOceanColor;
-            else
-               if (noiseSample < SeaLevel)
-                targetColor = InterpolateColor(DeepOceanLevel, SeaLevel, noiseSample, DeepOceanColor, SeaColor);
-            else
-               if (noiseSample < ShoreLevel)
-                targetColor = InterpolateColor(SeaLevel, ShoreLevel, noiseSample, SeaColor, ShoreColor);
-            else
-               if (noiseSample < GrassLevel)
-                targetColor = InterpolateColor(ShoreLevel, GrassLevel, noiseSample, ShoreColor, GrassColor);
-            else
-               if (noiseSample < ForestLevel)
-                targetColor = InterpolateColor(GrassLevel, ForestLevel, noiseSample, GrassColor, ForestColor);
-            else
-               if (noiseSample < RockLevel)
-                targetColor = InterpolateColor(ForestLevel, RockLevel, noiseSample, ForestColor, RockColor);
-            else
-                targetColor = InterpolateColor(RockLevel, 1.0f, noiseSample, RockColor, IceColor);
+                var starPos = qargs.memPerThread * i;
+                for (int q = starPos; q < qargs.memPerThread + starPos; q++)
+                {
+                    var y = q / qargs.width;
+                    var x = q - y * qargs.width;
 
-            pixels[q] = targetColor;
+                    var u = (float)x / (float)qargs.width;
+                    var v = (float)y / (float)qargs.height;
+
+                    Color targetColor = Color.clear;
+
+                    var sphericalPos = MapUV(u, v);
+
+
+                    var landSample = landmassGenerator.GetValue(sphericalPos);
+
+                    if (ColorMapEnabled)
+                        targetColor = MapLandColor(landSample);
+                    else
+                        targetColor = new Color(landSample, landSample, landSample);
+
+                    if (HasIceCaps && (1 - Mathf.Abs(sphericalPos.z)) <= PolarExtent)
+                    {
+                        var iceCapSample = polarCapsGenerator.GetValue(sphericalPos);
+                        iceCapSample = Mathf.Clamp(iceCapSample, 0, 1);
+                        targetColor += new Color(iceCapSample, iceCapSample, iceCapSample);
+                    }
+
+                    pxls[q] = targetColor;
+                }
+
+            });
+
+            thrs[t] = thr;
+            ThreadArgs args = new ThreadArgs()
+            {
+                i = t,
+                pixels = pixels,
+                memPerThread = memPerThread,
+                width = _horizontalResolution,
+                height = VerticalResolution
+            };
+
+            thr.Start(args);
+        }
+
+        foreach (var x in thrs)
+        {
+            x.Join();
         }
 
         heightMap.SetPixels(pixels);
@@ -98,6 +178,34 @@ public class PlanetTextureGen : MonoBehaviour
 
         GetComponent<Renderer>().material.SetTexture("_DiffuseTex", heightMap);
         GetComponent<Renderer>().material.mainTexture = heightMap;
+
+        var elapsed = Time.time - timeNow;
+        Debug.Log("Generated in " + elapsed + " seconds");
+    }
+
+    private Color MapLandColor(float landSample)
+    {
+        Color landColor;
+        if (landSample < DeepOceanLevel)
+            landColor = DeepOceanColor;
+        else
+                if (landSample < SeaLevel)
+            landColor = InterpolateColor(DeepOceanLevel, SeaLevel, landSample, DeepOceanColor, SeaColor);
+        else
+                if (landSample < ShoreLevel)
+            landColor = InterpolateColor(SeaLevel, ShoreLevel, landSample, SeaColor, ShoreColor);
+        else
+                if (landSample < GrassLevel)
+            landColor = InterpolateColor(ShoreLevel, GrassLevel, landSample, ShoreColor, GrassColor);
+        else
+                if (landSample < ForestLevel)
+            landColor = InterpolateColor(GrassLevel, ForestLevel, landSample, GrassColor, ForestColor);
+        else
+                if (landSample < RockLevel)
+            landColor = InterpolateColor(ForestLevel, RockLevel, landSample, ForestColor, RockColor);
+        else
+            landColor = InterpolateColor(RockLevel, 1.0f, landSample, RockColor, IceColor);
+        return landColor;
     }
 
     private Color InterpolateColor(float sampleMin, float sampleMax, float sample, Color min, Color max)
@@ -116,5 +224,6 @@ public class PlanetTextureGen : MonoBehaviour
 
         return new Vector3(x, y, z);
     }
+
 
 }
