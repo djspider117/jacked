@@ -48,6 +48,11 @@ public class PlanetTextureGen : MonoBehaviour
     public float TurbulentPower = 0.2f;
     public int TurbulentSeed = 2;
 
+    [Header ("Gas Giant")]
+    public float GasTurbulentFrequency = 4;
+    public float GasTurbulentPower = 0.2f;
+    public int GasTurbulentSeed = 2;
+
     [Header ("[EXPERIMENTAL] Polar Caps Settings")]
     public bool HasIceCaps = true;
 
@@ -212,9 +217,9 @@ public class PlanetTextureGen : MonoBehaviour
 
     private void GenerateGasGiant(object arg)
     {
-        var landmassGenerator = new Function((x, y, z) => Helpers.Saw(z / 1))
-            .Turbulence(TurbulentFrequency, TurbulentPower, TurbulentSeed);
-
+        var gasGenerator = new Function((x, y, z) => Mathf.Abs(Helpers.Saw(z / 0.9f)))
+            .Turbulence(GasTurbulentFrequency, GasTurbulentPower, GasTurbulentSeed)
+            .Gain(0.4f);
 
         var qargs = (ThreadArgs)arg;
         var i = qargs.i;
@@ -234,7 +239,7 @@ public class PlanetTextureGen : MonoBehaviour
             var sphericalPos = MapUV(u, v);
 
 
-            var landSample = landmassGenerator.GetValue(sphericalPos);
+            var landSample = gasGenerator.GetValue(sphericalPos);
 
             if (ColorMapEnabled)
                 targetColor = MapLandColor(landSample);

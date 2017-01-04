@@ -102,12 +102,12 @@ GameObject:
   - 23: {fileID: 37433244}
   - 114: {fileID: 37433243}
   m_Layer: 0
-  m_Name: ImageMap
+  m_Name: GasGiant
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &37433243
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -121,21 +121,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Seed: 581
   VerticalResolution: 256
-  DeepOceanLevel: 0.1
+  DeepOceanLevel: 0.05
   SeaLevel: 0.2
   ShoreLevel: 0.3
-  GrassLevel: 0.36
-  ForestLevel: 0.41
-  RockLevel: 0.79
+  GrassLevel: 0.5
+  ForestLevel: 0.7
+  RockLevel: 0.8
   ColorMapEnabled: 1
-  PlanetType: 0
-  DeepOceanColor: {r: 0.0627451, g: 0.13333334, b: 0.17254902, a: 1}
-  SeaColor: {r: 0.10196079, g: 0.21568629, b: 0.27450982, a: 1}
-  ShoreColor: {r: 0.15294118, g: 0.3254902, b: 0.41960788, a: 1}
-  GrassColor: {r: 0.53333336, g: 0.53333336, b: 0.5254902, a: 1}
-  ForestColor: {r: 0.22352943, g: 0.30980393, b: 0.15686275, a: 1}
-  RockColor: {r: 0.32156864, g: 0.34117648, b: 0.3137255, a: 1}
-  IceColor: {r: 0.7490196, g: 0.74509805, b: 0.7372549, a: 1}
+  PlanetType: 1
+  DeepOceanColor: {r: 0.6392157, g: 0.5176471, b: 0.4039216, a: 1}
+  SeaColor: {r: 0.4666667, g: 0.454902, b: 0.3921569, a: 1}
+  ShoreColor: {r: 0.854902, g: 0.85098046, b: 0.882353, a: 1}
+  GrassColor: {r: 0.54901963, g: 0.5568628, b: 0.4784314, a: 1}
+  ForestColor: {r: 0.58431375, g: 0.4666667, b: 0.427451, a: 1}
+  RockColor: {r: 0.7176471, g: 0.6862745, b: 0.6431373, a: 1}
+  IceColor: {r: 0.73333335, g: 0.49803925, b: 0.23529413, a: 1}
   Frequency: 1
   Exponent: 0.4
   Gain: 2
@@ -145,8 +145,11 @@ MonoBehaviour:
   TurbulentFrequency: 4
   TurbulentPower: 0.2
   TurbulentSeed: 2
+  GasTurbulentFrequency: 4.02
+  GasTurbulentPower: 0.06
+  GasTurbulentSeed: 148
   HasIceCaps: 1
-  PolarExtent: 0.2
+  PolarExtent: 1.805
   PolarFrequency: 1.56
   PolarLacunarity: 0.5
   PolarOctaveCount: 6
@@ -268,6 +271,124 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
+--- !u!1 &878269693
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 878269697}
+  - 33: {fileID: 878269696}
+  - 23: {fileID: 878269695}
+  - 114: {fileID: 878269694}
+  m_Layer: 0
+  m_Name: Terestrial
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &878269694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 878269693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75089c8459ee5d94ea3c5316a6d7e953, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Seed: 581
+  VerticalResolution: 256
+  DeepOceanLevel: 0.1
+  SeaLevel: 0.2
+  ShoreLevel: 0.3
+  GrassLevel: 0.36
+  ForestLevel: 0.41
+  RockLevel: 0.79
+  ColorMapEnabled: 1
+  PlanetType: 1
+  DeepOceanColor: {r: 0.0627451, g: 0.13333334, b: 0.17254902, a: 1}
+  SeaColor: {r: 0.10196079, g: 0.21568629, b: 0.27450982, a: 1}
+  ShoreColor: {r: 0.15294118, g: 0.3254902, b: 0.41960788, a: 1}
+  GrassColor: {r: 0.53333336, g: 0.53333336, b: 0.5254902, a: 1}
+  ForestColor: {r: 0.22352943, g: 0.30980393, b: 0.15686275, a: 1}
+  RockColor: {r: 0.32156864, g: 0.34117648, b: 0.3137255, a: 1}
+  IceColor: {r: 0.7490196, g: 0.74509805, b: 0.7372549, a: 1}
+  Frequency: 1
+  Exponent: 0.4
+  Gain: 2
+  Offset: 0.7
+  Lacunarity: 0.5
+  OctaveCount: 2
+  TurbulentFrequency: 4
+  TurbulentPower: 0.2
+  TurbulentSeed: 2
+  GasTurbulentFrequency: 1
+  GasTurbulentPower: 0.03
+  GasTurbulentSeed: 148
+  HasIceCaps: 1
+  PolarExtent: 1.805
+  PolarFrequency: 1.56
+  PolarLacunarity: 0.5
+  PolarOctaveCount: 6
+  PolarPersistance: 0.47
+  IceCapBias: 0.26
+  PolarTurbulence: 3.67
+  PolarTurbulencePower: 0.2
+  PolarTurbulenceSeed: 2
+  DoUpdate: 0
+--- !u!23 &878269695
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 878269693}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_Materials:
+  - {fileID: 2100000, guid: 4087773b15e9c5b48a48079aef72dfd8, type: 2}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 1
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_SelectedWireframeHidden: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+--- !u!33 &878269696
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 878269693}
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &878269697
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 878269693}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 2, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
 --- !u!1 &955217741
 GameObject:
   m_ObjectHideFlags: 0
@@ -323,6 +444,9 @@ MonoBehaviour:
   TurbulentFrequency: 4
   TurbulentPower: 0.2
   TurbulentSeed: 2
+  GasTurbulentFrequency: 4
+  GasTurbulentPower: 0.2
+  GasTurbulentSeed: 2
   HasIceCaps: 1
   PolarExtent: 0.2
   PolarFrequency: 1
