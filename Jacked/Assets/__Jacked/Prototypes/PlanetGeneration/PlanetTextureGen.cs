@@ -6,6 +6,7 @@ using System.Threading;
 using System.Linq;
 using System.Collections.Generic;
 using CoherentNoise.Generation;
+using CoherentNoise.Generation.Patterns;
 
 public class PlanetTextureGen : MonoBehaviour
 {
@@ -23,6 +24,8 @@ public class PlanetTextureGen : MonoBehaviour
     public float RockLevel = 0.8f;
 
     public bool ColorMapEnabled = true;
+
+    public PlanetType PlanetType = PlanetType.Earthlike;
 
     [Header ("Color Mapping")]
     public Color DeepOceanColor = new Color(0.561f, 0.737f, 0.561f);
@@ -45,13 +48,19 @@ public class PlanetTextureGen : MonoBehaviour
     public float TurbulentPower = 0.2f;
     public int TurbulentSeed = 2;
 
-    [Header ("Polar Caps Settings")]
+    [Header ("[EXPERIMENTAL] Polar Caps Settings")]
     public bool HasIceCaps = true;
-    public float PolarExtent = 0.2f;
+
+    [Range(1, 2)]
+    public float PolarExtent = 1.7f;
     public float PolarFrequency = 1f;
     public float PolarLacunarity = 0.5f;
     public int PolarOctaveCount = 6;
     public float PolarPersistance = 0.5f;
+    public float IceCapBias = 0.5f;
+    public float PolarTurbulence = 4f;
+    public float PolarTurbulencePower = 0.2f;
+    public int PolarTurbulenceSeed = 2;
 
 
     public bool DoUpdate;
@@ -100,57 +109,16 @@ public class PlanetTextureGen : MonoBehaviour
         {
             var thr = new Thread((arg) =>
             {
-                var landmassGenerator = new RidgeNoise(Seed)
+                switch (PlanetType)
                 {
-                    Frequency = Frequency,
-                    Exponent = Exponent,
-                    Gain = Gain,
-                    Offset = Offset,
-                    Lacunarity = Lacunarity,
-                    OctaveCount = OctaveCount
-                }.Turbulence(TurbulentFrequency, TurbulentPower, TurbulentSeed);
-
-                var polarCapsGenerator = new PinkNoise(Seed)
-                {
-                    Frequency = PolarFrequency,
-                    Lacunarity = PolarLacunarity,
-                    OctaveCount = PolarOctaveCount,
-                    Persistence = PolarPersistance
-                };
-
-                var qargs = (ThreadArgs)arg;
-                var i = qargs.i;
-                var pxls = qargs.pixels;
-
-                var starPos = qargs.memPerThread * i;
-                for (int q = starPos; q < qargs.memPerThread + starPos; q++)
-                {
-                    var y = q / qargs.width;
-                    var x = q - y * qargs.width;
-
-                    var u = (float)x / (float)qargs.width;
-                    var v = (float)y / (float)qargs.height;
-
-                    Color targetColor = Color.clear;
-
-                    var sphericalPos = MapUV(u, v);
-
-
-                    var landSample = landmassGenerator.GetValue(sphericalPos);
-
-                    if (ColorMapEnabled)
-                        targetColor = MapLandColor(landSample);
-                    else
-                        targetColor = new Color(landSample, landSample, landSample);
-
-                    if (HasIceCaps && (1 - Mathf.Abs(sphericalPos.z)) <= PolarExtent)
-                    {
-                        var iceCapSample = polarCapsGenerator.GetValue(sphericalPos);
-                        iceCapSample = Mathf.Clamp(iceCapSample, 0, 1);
-                        targetColor += new Color(iceCapSample, iceCapSample, iceCapSample);
-                    }
-
-                    pxls[q] = targetColor;
+                    case PlanetType.Earthlike:
+                        GenerateEarthlike(arg);
+                        break;
+                    case PlanetType.GasGiant:
+                        GenerateGasGiant(arg);
+                        break;
+                    default:
+                        break;
                 }
 
             });
@@ -182,6 +150,101 @@ public class PlanetTextureGen : MonoBehaviour
         var elapsed = Time.time - timeNow;
         Debug.Log("Generated in " + elapsed + " seconds");
     }
+
+    private void GenerateEarthlike(object arg)
+    {
+        var landmassGenerator = new RidgeNoise(Seed)
+        {
+            Frequency = Frequency,
+            Exponent = Exponent,
+            Gain = Gain,
+            Offset = Offset,
+            Lacunarity = Lacunarity,
+            OctaveCount = OctaveCount
+        }.Turbulence(TurbulentFrequency, TurbulentPower, TurbulentSeed);
+
+        var polarCapsGenerator = new Function((x, y, z) => Helpers.Saw(z / PolarExtent))
+            .Turbulence(PolarTurbulence, PolarTurbulencePower, PolarTurbulenceSeed)
+            .Gain(0.9f);
+
+        var qargs = (ThreadArgs)arg;
+        var i = qargs.i;
+        var pxls = qargs.pixels;
+
+        var starPos = qargs.memPerThread * i;
+        for (int q = starPos; q < qargs.memPerThread + starPos; q++)
+        {
+            var y = q / qargs.width;
+            var x = q - y * qargs.width;
+
+            var u = (float)x / (float)qargs.width;
+            var v = (float)y / (float)qargs.height;
+
+            Color targetColor = Color.clear;
+
+            var sphericalPos = MapUV(u, v);
+
+
+            var landSample = landmassGenerator.GetValue(sphericalPos);
+
+            if (ColorMapEnabled)
+                targetColor = MapLandColor(landSample);
+            else
+                targetColor = new Color(landSample, landSample, landSample);
+
+            if (HasIceCaps)
+            {
+                var iceCapSample = Mathf.Clamp(polarCapsGenerator.GetValue(sphericalPos), 0, 1);
+
+                Color iceColor = new Color(iceCapSample,iceCapSample,iceCapSample);
+
+                var a = targetColor;
+                var b = iceColor;
+                var one = Color.white;
+
+                targetColor = one - (one - a) * (one - b); // screen blend mode
+
+            }
+
+            pxls[q] = targetColor;
+        }
+    }
+
+    private void GenerateGasGiant(object arg)
+    {
+        var landmassGenerator = new Function((x, y, z) => Helpers.Saw(z / 1))
+            .Turbulence(TurbulentFrequency, TurbulentPower, TurbulentSeed);
+
+
+        var qargs = (ThreadArgs)arg;
+        var i = qargs.i;
+        var pxls = qargs.pixels;
+
+        var starPos = qargs.memPerThread * i;
+        for (int q = starPos; q < qargs.memPerThread + starPos; q++)
+        {
+            var y = q / qargs.width;
+            var x = q - y * qargs.width;
+
+            var u = (float)x / (float)qargs.width;
+            var v = (float)y / (float)qargs.height;
+
+            Color targetColor = Color.clear;
+
+            var sphericalPos = MapUV(u, v);
+
+
+            var landSample = landmassGenerator.GetValue(sphericalPos);
+
+            if (ColorMapEnabled)
+                targetColor = MapLandColor(landSample);
+            else
+                targetColor = new Color(landSample, landSample, landSample);
+
+            pxls[q] = targetColor;
+        }
+    }
+
 
     private Color MapLandColor(float landSample)
     {
@@ -226,4 +289,10 @@ public class PlanetTextureGen : MonoBehaviour
     }
 
 
+}
+
+public enum PlanetType
+{
+    Earthlike,
+    GasGiant
 }

@@ -99,11 +99,10 @@ GameObject:
   m_Component:
   - 4: {fileID: 37433247}
   - 33: {fileID: 37433246}
-  - 135: {fileID: 37433245}
   - 23: {fileID: 37433244}
   - 114: {fileID: 37433243}
   m_Layer: 0
-  m_Name: Sphere (2)
+  m_Name: ImageMap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -129,6 +128,7 @@ MonoBehaviour:
   ForestLevel: 0.41
   RockLevel: 0.79
   ColorMapEnabled: 1
+  PlanetType: 0
   DeepOceanColor: {r: 0.0627451, g: 0.13333334, b: 0.17254902, a: 1}
   SeaColor: {r: 0.10196079, g: 0.21568629, b: 0.27450982, a: 1}
   ShoreColor: {r: 0.15294118, g: 0.3254902, b: 0.41960788, a: 1}
@@ -136,6 +136,25 @@ MonoBehaviour:
   ForestColor: {r: 0.22352943, g: 0.30980393, b: 0.15686275, a: 1}
   RockColor: {r: 0.32156864, g: 0.34117648, b: 0.3137255, a: 1}
   IceColor: {r: 0.7490196, g: 0.74509805, b: 0.7372549, a: 1}
+  Frequency: 1
+  Exponent: 0.4
+  Gain: 2
+  Offset: 0.7
+  Lacunarity: 0.5
+  OctaveCount: 2
+  TurbulentFrequency: 4
+  TurbulentPower: 0.2
+  TurbulentSeed: 2
+  HasIceCaps: 1
+  PolarExtent: 0.2
+  PolarFrequency: 1.56
+  PolarLacunarity: 0.5
+  PolarOctaveCount: 6
+  PolarPersistance: 0.47
+  IceCapBias: 0.26
+  PolarTurbulence: 3.67
+  PolarTurbulencePower: 0.2
+  PolarTurbulenceSeed: 2
   DoUpdate: 0
 --- !u!23 &37433244
 MeshRenderer:
@@ -166,18 +185,6 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
---- !u!135 &37433245
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 37433242}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!33 &37433246
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -270,7 +277,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 955217746}
   - 33: {fileID: 955217745}
-  - 135: {fileID: 955217744}
   - 23: {fileID: 955217743}
   - 114: {fileID: 955217742}
   m_Layer: 0
@@ -300,6 +306,7 @@ MonoBehaviour:
   ForestLevel: 0.41
   RockLevel: 0.79
   ColorMapEnabled: 1
+  PlanetType: 0
   DeepOceanColor: {r: 0.0627451, g: 0.13333334, b: 0.17254902, a: 1}
   SeaColor: {r: 0.10196079, g: 0.21568629, b: 0.27450982, a: 1}
   ShoreColor: {r: 0.15294118, g: 0.3254902, b: 0.41960788, a: 1}
@@ -307,6 +314,25 @@ MonoBehaviour:
   ForestColor: {r: 0.22352943, g: 0.30980393, b: 0.15686275, a: 1}
   RockColor: {r: 0.32156864, g: 0.34117648, b: 0.3137255, a: 1}
   IceColor: {r: 0.7490196, g: 0.74509805, b: 0.7372549, a: 1}
+  Frequency: 1
+  Exponent: 0.4
+  Gain: 2
+  Offset: 0.7
+  Lacunarity: 0.5
+  OctaveCount: 2
+  TurbulentFrequency: 4
+  TurbulentPower: 0.2
+  TurbulentSeed: 2
+  HasIceCaps: 1
+  PolarExtent: 0.2
+  PolarFrequency: 1
+  PolarLacunarity: 0.5
+  PolarOctaveCount: 6
+  PolarPersistance: 0.5
+  IceCapBias: 0.5
+  PolarTurbulence: 4
+  PolarTurbulencePower: 0.2
+  PolarTurbulenceSeed: 2
   DoUpdate: 0
 --- !u!23 &955217743
 MeshRenderer:
@@ -337,18 +363,6 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
---- !u!135 &955217744
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 955217741}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!33 &955217745
 MeshFilter:
   m_ObjectHideFlags: 0
