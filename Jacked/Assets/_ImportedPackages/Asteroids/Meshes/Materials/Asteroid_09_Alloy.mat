@@ -1,0 +1,91 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Asteroid_09_Alloy
+  m_Shader: {fileID: 4800000, guid: f5ee975fdeee3e148be56065966a2566, type: 3}
+  m_ShaderKeywords: _BUMPMODE_BUMP _ENVIRONMENTMAPMODE_RSRM
+  m_LightmapFlags: 5
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  m_SavedProperties:
+    serializedVersion: 2
+    m_TexEnvs:
+    - first:
+        name: _BumpMap
+      second:
+        m_Texture: {fileID: 2800000, guid: 122bdce82c867d54593c04e2bdc22627, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - first:
+        name: _Cube
+      second:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - first:
+        name: _MainTex
+      second:
+        m_Texture: {fileID: 2800000, guid: b6c13862c74acda409c80136377032ea, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - first:
+        name: _MaterialMap
+      second:
+        m_Texture: {fileID: 2800000, guid: 57d0c6e7be056c742bceb2bcd0306076, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - first:
+        name: _ParallaxMap
+      second:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - first:
+        name: _Rsrm
+      second:
+        m_Texture: {fileID: 2800000, guid: d2a248fb193051d4193489be79513ee6, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - first:
+        name: _SpecCubeIBL
+      second:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - first:
+        name: _BumpMode
+      second: 0
+    - first:
+        name: _CubeExposureBoost
+      second: 1
+    - first:
+        name: _EnvironmentMapMode
+      second: 0
+    - first:
+        name: _MaxSamples
+      second: 20
+    - first:
+        name: _Metallic
+      second: 0.22
+    - first:
+        name: _MinSamples
+      second: 4
+    - first:
+        name: _Parallax
+      second: 0.02
+    - first:
+        name: _Roughness
+      second: 0.932
+    - first:
+        name: _Specularity
+      second: 0.341
+    m_Colors:
+    - first:
+        name: _Color
+      second: {r: 0.8, g: 0.8, b: 0.8, a: 1}
