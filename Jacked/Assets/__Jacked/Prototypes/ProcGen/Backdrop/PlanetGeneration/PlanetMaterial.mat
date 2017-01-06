@@ -90,7 +90,7 @@ Material:
     - first:
         name: _SpecularTex
       second:
-        m_Texture: {fileID: 2800000, guid: adf1fd6621743de4791e50f9dddb1ff9, type: 3}
+        m_Texture: {fileID: 2800000, guid: cb2b5f9650992f24b8718527d5159ae3, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
@@ -105,7 +105,7 @@ Material:
       second: 1
     - first:
         name: _Contrast
-      second: 0.71
+      second: 5.96
     - first:
         name: _Cutoff
       second: 0.5
@@ -129,7 +129,7 @@ Material:
       second: 200
     - first:
         name: _Lift
-      second: 0.5
+      second: 2.73
     - first:
         name: _Metallic
       second: 0
@@ -147,10 +147,16 @@ Material:
       second: 0.024
     - first:
         name: _Shininess
-      second: 7.29
+      second: 15.85
     - first:
         name: _SmoothnessTextureChannel
       second: 0
+    - first:
+        name: _SpecularFadeContrast
+      second: 12.8
+    - first:
+        name: _SpecularFadeLift
+      second: -5.6
     - first:
         name: _SpecularHighlights
       second: 1
@@ -178,4 +184,4 @@ Material:
       second: {r: -0.09, g: 0.74, b: -1.33, a: 0}
     - first:
         name: _SpecColor
-      second: {r: 0.99264705, g: 0.6253878, b: 0.16057524, a: 1}
+      second: {r: 1, g: 0.88640976, b: 0.7647059, a: 1}
