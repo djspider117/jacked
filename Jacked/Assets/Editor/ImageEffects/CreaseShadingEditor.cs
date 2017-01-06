@@ -2,10 +2,11 @@ using System;
 using UnityEditor;
 using UnityEditor.AnimatedValues;
 using UnityEngine;
+using UnityStandardAssets.ImageEffects;
 
 namespace UnityStandardAssets.ImageEffects
 {
-    [CustomEditor(typeof(CreaseShading))]
+    [CustomEditor(typeof(CreaseShadingEditor))]
     class CreaseShadingEditor : Editor {
         SerializedObject serObj;
 
